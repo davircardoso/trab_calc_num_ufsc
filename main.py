@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from math import exp
+
+
 e = exp(1)
 
 fig = plt.figure()
@@ -14,9 +16,9 @@ ax.yaxis.set_ticks_position('left')
 
 t = np.linspace(0, 10)
 
-r = 2 * e*(-t/2) / 3(1/2) * np.sin(3*(1/2) * t / 2)
+r = 2 * e*(-t/2) / 3**(1/2) * np.sin(3**(1/2) * t / 2)
 
-vc = 1 - e*(-t/2) * (3(1/2)/3 * np.sin(3(1/2)/2 * t) + np.cos(3*(1/2)/2 * t))
+vc = 1 - e*(-t/2) * (3**(1/2)/3 * np.sin(3**(1/2)/2 * t) + np.cos(3**(1/2)/2 * t))
 
 plt.plot(t,vc)
 
