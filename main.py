@@ -22,17 +22,10 @@ r = 2 * e**(-t/2) / 3**(1/2) * np.sin(3**(1/2) * t / 2)
 vc = 1 - e**(-t/2) * (3**(1/2)/3 * np.sin(3**(1/2)/2 * t) + np.cos(3**(1/2)/2 * t))
 
 
-plt.annotate('R(0) = 0', xy=(0, 0), xytext=(-2, -0.05),
-             arrowprops=dict(facecolor='black', shrink=0.05),)
-
 plt.annotate('t = 3.62759, Vc = 1.16303353481537', xy=(3.62759, 1.16303353481537), xytext=(2.5, 0.9),
              arrowprops=dict(facecolor='black', shrink=0.05),)
 
-plt.annotate('R(0) = 7.25519', xy=(7.25519, 0), xytext=(8.0, 0.05),
-             arrowprops=dict(facecolor='black', shrink=0.05),)
-
-
-plt.plot(t,r)
+plt.plot(t,vc)
 
 y = 1 - e**(-3.62759/2) * (3**(1/2)/3 * np.sin(3**(1/2)/2 * 3.62759) + np.cos(3**(1/2)/2 * 3.62759))
 print(y)
