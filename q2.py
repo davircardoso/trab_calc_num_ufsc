@@ -12,19 +12,33 @@ def df(t):
     return - ((e ** (t/2)) * (np.sin(np.sqrt(3) * t / 2)))/np.sqrt(3) + (e ** (-t/2)) * np.cos(np.sqrt(3) * t / 2)
 
 
-def bisseccao(f, a, b, prec):
-    """ Método da bisseção para uma função f no intervalo [a,b]. """
-    m = (a + b) / 2
-    # Se já há precisão suficiente, retornamos o ponto médio do intervalo
-    if abs(b - a) < prec: return m
-    # Se f(m) == 0, achamos uma raiz exata!
-    if f(m) == 0: return m
+def bisseccao(F, A, B, TOL ):
+    """
+      Encontra a raiz de F (em [A,B]) com um erro
+      menor que TOL usando o algoritmo da Bissecção
 
-    # Senão, vamos por recorrência
-    if f(m) * f(a) < 0:
-        return bisseccao(f, a, m, prec)
-    else:
-        return bisseccao(f, m, b, prec)
+      Recebe:
+        F   => Função para encontrar a raiz
+        A,B => Intervalo de busca da raiz
+        TOL => Valor máximo do Erro (tolerância)
+
+      Retorna:
+        p   => Raiz encontrada
+        E   => Erro
+    """
+    E = (B-A)/2.0
+    p = (A+B)/2.0
+    count = 0
+    while E > TOL:
+        count += 1
+        if F(A)*F(p) < 0:
+            B = p
+        else:
+            A = p
+        E = (B-A)/2.0
+        p = (A+B)/2.0
+
+    return p, count
 
 
 def fp(a, b):
@@ -43,7 +57,8 @@ def fp(a, b):
             b = c
         elif f(c)*f(b) < 0:
             a = c
-    return c, n, X, Y
+
+    return c, n
 
 
 def newton(f, Df, x0, epsilon, max_iter):
@@ -78,8 +93,8 @@ def newton(f, Df, x0, epsilon, max_iter):
     for n in range(0, max_iter):
         fxn = f(xn)
         if abs(fxn) < epsilon:
-            print('Found solution after',n,'iterations.')
-            return xn
+            #print('Iterações Newton =',n)
+            return xn, n
         Dfxn = Df(xn)
         if Dfxn == 0:
             print('Zero derivative. No solution found.')
