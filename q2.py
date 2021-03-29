@@ -103,6 +103,24 @@ def newton(f, Df, x0, epsilon, max_iter):
     print('Exceeded maximum iterations. No solution found.')
     return None
 
+def secant(f, x0, x1, eps):
+    f_x0 = f(x0)
+    f_x1 = f(x1)
+    iteration_counter = 0
+    while abs(f_x1) > eps and iteration_counter < 100:
+        denominator = float(f_x1 - f_x0) / (x1 - x0)
+        x = x1 - float(f_x1) / denominator
+        x0 = x1
+        x1 = x
+        f_x0 = f_x1
+        f_x1 = f(x1)
+        iteration_counter += 1
+    if abs(f_x1) > eps:
+        iteration_counter = -1
+    return x, iteration_counter
+
+
+print(secant(f, 2, 5, 10**(-6)))
 
 print(newton(f, df, 2, 10**(-6), 1000))
 
