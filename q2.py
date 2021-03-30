@@ -25,10 +25,10 @@ def bisection(f, a, b, tol):
         p = (a+b)/2
     return p, count
 
-def false_position(f, a, b):
+def false_position(f, a, b, eps):
     c = 1
     counter = 0
-    while (f(c) > 10**-12) or (f(c) < -(10**-12)):
+    while (f(c) > eps) or (f(c) < -eps):
         c = b - ((f(b)*(b-a))/(f(b) - f(a)))
         counter += 1
         if c == a or c == b:
@@ -57,24 +57,24 @@ def newton(f, Df, x0, epsilon, max_iter):
 def secant(f, x0, x1, eps):
     f_x0 = f(x0)
     f_x1 = f(x1)
-    iteration_counter = 0
-    while abs(f_x1) > eps and iteration_counter < 100:
+    counter = 0
+    while abs(f_x1) > eps and counter < 100:
         denominator = float(f_x1 - f_x0) / (x1 - x0)
         x = x1 - float(f_x1) / denominator
         x0 = x1
         x1 = x
         f_x0 = f_x1
         f_x1 = f(x1)
-        iteration_counter += 1
+        counter += 1
     if abs(f_x1) > eps:
-        iteration_counter = -1
-    return x, iteration_counter
+        counter = -1
+    return x, counter
 
 
 print(secant(f, 2, 5, 10**(-6)))
 
 print(newton(f, df, 2, 10**(-6), 1000))
 
-print(false_position(f, 2, 6))
+print(false_position(f, 2, 6, 10**(-6)))
 
 print(bisection(f, 2, 6, 10**(-6)))
