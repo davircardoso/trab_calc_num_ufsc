@@ -11,89 +11,40 @@ def f(t):
 def df(t):
     return - ((e ** (t/2)) * (np.sin(np.sqrt(3) * t / 2)))/np.sqrt(3) + (e ** (-t/2)) * np.cos(np.sqrt(3) * t / 2)
 
-
-def bisseccao(F, A, B, TOL ):
-    """
-      Encontra a raiz de F (em [A,B]) com um erro
-      menor que TOL usando o algoritmo da Bissecção
-
-      Recebe:
-        F   => Função para encontrar a raiz
-        A,B => Intervalo de busca da raiz
-        TOL => Valor máximo do Erro (tolerância)
-
-      Retorna:
-        p   => Raiz encontrada
-        E   => Erro
-    """
-    E = (B-A)/2.0
-    p = (A+B)/2.0
+def bisection(f, a, b, tol):
+    error = (b-a)/2
+    p = (a+b)/2
     count = 0
-    while E > TOL:
+    while error > tol:
         count += 1
-        if F(A)*F(p) < 0:
-            B = p
+        if f(a) * f(p) < 0:
+            b = p
         else:
-            A = p
-        E = (B-A)/2.0
-        p = (A+B)/2.0
-
+            a = p
+        error = (b-a)/2
+        p = (a+b)/2
     return p, count
 
-
-def fp(a, b):
+def false_position(f, a, b):
     c = 1
-    n = 0
-    X = []
-    Y = []
+    counter = 0
     while (f(c) > 10**-12) or (f(c) < -(10**-12)):
         c = b - ((f(b)*(b-a))/(f(b) - f(a)))
-        n += 1
-        X.append(n)
-        Y.append(c)
+        counter += 1
         if c == a or c == b:
-            return c, n, X, Y
+            return c, counter
         if f(c)*f(a) < 0:
             b = c
         elif f(c)*f(b) < 0:
             a = c
-
-    return c, n
+    return c, counter
 
 
 def newton(f, Df, x0, epsilon, max_iter):
-    """
-    Approximate solution of f(x)=0 by Newton's method.
-
-    Parameters
-    ----------
-    f : function
-        Function for which we are searching for a solution f(x)=0.
-    Df : function
-        Derivative of f(x).
-    x0 : number
-        Initial guess for a solution f(x)=0.
-    epsilon : number
-        Stopping criteria is abs(f(x)) < epsilon.
-    max_iter : integer
-        Maximum number of iterations of Newton's method.
-
-    Returns
-    -------
-    xn : number
-        Implement Newton's method: compute the linear approximation
-        of f(x) at xn and find x intercept by the formula
-            x = xn - f(xn)/Df(xn)
-        Continue until abs(f(xn)) < epsilon and return xn.
-        If Df(xn) == 0, return None. If the number of iterations
-        exceeds max_iter, then return None.
-
-    """
     xn = x0
     for n in range(0, max_iter):
         fxn = f(xn)
         if abs(fxn) < epsilon:
-            #print('Iterações Newton =',n)
             return xn, n
         Dfxn = Df(xn)
         if Dfxn == 0:
@@ -124,6 +75,6 @@ print(secant(f, 2, 5, 10**(-6)))
 
 print(newton(f, df, 2, 10**(-6), 1000))
 
-print(fp(2, 6))
+print(false_position(f, 2, 6))
 
-print(bisseccao(f, 2, 6, 10**(-6)))
+print(bisection(f, 2, 6, 10**(-6)))
