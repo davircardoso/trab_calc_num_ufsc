@@ -89,10 +89,11 @@ print(newt[1])
 print(sec[1])
 
 # QUESTÃO 1.4.1
-bisec_ab = bisec[2]
-bisec_k = range(len(bisec_ab))
-bisec_a = [x[0] for x in bisec_ab]
-bisec_b = [x[1] for x in bisec_ab]
+# bissecção
+bisec_a = [x[0] for x in bisec[2]] # lista de valores de 'a' a cada iteração
+bisec_b = [x[1] for x in bisec[2]] # lista de valores de 'b' a cada iteração
+bisec_k = range(len(bisec_a)) # lista de iterações (0 a n)
+# exibição do gráfico
 bisec_graph_ka = plt.scatter(bisec_k, bisec_a)
 bisec_graph_kb = plt.scatter(bisec_k, bisec_b)
 plt.grid(True)
@@ -100,11 +101,11 @@ plt.legend((bisec_graph_ka, bisec_graph_kb), ('a', 'b'), loc='upper right')
 plt.title('Método da bissecção')
 plt.xlabel('k')
 plt.show()
-
-fp_ab = fp[2]
-fp_k = range(len(fp_ab))
-fp_a = [x[0] for x in fp_ab]
-fp_b = [x[1] for x in fp_ab]
+# falsa posição
+fp_a = [x[0] for x in fp[2]] # lista de valores de 'a' a cada iteração
+fp_b = [x[1] for x in fp[2]] # lista de valores de 'b' a cada iteração
+fp_k = range(len(fp_a)) # lista de iterações (0 a n)
+# exibição do gráfico
 fp_graph_ka = plt.scatter(fp_k, fp_a)
 fp_graph_kb = plt.scatter(fp_k, fp_b)
 plt.grid(True)
