@@ -88,3 +88,150 @@ for i, j in zip(range(3),numero_equações):
     print(svdsolve(l[i],Y[i]))
     print()
 print('-------------------------------------------------------')
+
+
+#################################   3.2   ######################################
+
+print('Questão 3.2')
+print('')
+
+
+############### Método de Eliminação por Gauss com Pivoteamento ################
+
+
+def gauss(A, b):
+    A = np.column_stack((A, b)).astype(float)  # matriz ampliada
+    N = len(A)
+    for i in range(N):
+        k = np.argmax(np.abs(A[i:, i]))
+        if k > 0:
+            A[i + k], A[i] = np.copy(A[i]), np.copy(A[i + k])
+        m = A[i, i:] / A[i, i]
+        for j in range(i + 1, N):
+            A[j, i:] -= A[j, i] * m
+            A[j, :i] = 0.
+    for i in range(N - 1, -1, -1):
+        for j in range(N - 1, i, -1):
+            A[i, -1] -= A[i, j] * A[j, -1]
+        A[i, -1] /= A[i, i]
+    return A[:, -1]
+
+
+print('Método Eliminação de Gauss')
+print()
+for i, j in zip(range(2), numero_equações):
+    print('A solução do ', j, ' sistema linear é: ')
+    print(gauss(l[i], Y[i]))
+    print()
+print('-------------------------------------------------------')
+
+
+######################### Método Fatoração LU ##################################
+
+def LU(A):
+    n = len(A)
+    x = [0] * n
+    for k in list(range(1, n, 1)):
+        for i in list(range(k + 1, n + 1, 1)):
+            m = A[i - 1][k - 1] / A[k - 1][k - 1]
+            A[i - 1][k - 1] = m
+            for j in list(range(k + 1, n + 1, 1)):
+                A[i - 1][j - 1] = A[i - 1][j - 1] - m * A[k - 1][j - 1]
+    return A
+
+
+def solveLowerTriangular(L, b):
+    n = len(b)
+    y = [0] * n
+    for i in list(range(1, n + 1, 1)):
+        s = 0
+        for j in list(range(1, i, 1)):
+            s = s + L[i - 1][j - 1] * y[j - 1]
+        y[i - 1] = b[i - 1] - s
+    return y
+
+
+def solveUpperTriangular(U, b):
+    n = len(b)
+    x = [0] * n
+    x[n - 1] = b[n - 1] / U[n - 1][n - 1]
+    for i in list(range(n - 1, 0, -1)):
+        s = 0
+        for j in list(range(i + 1, n + 1, 1)):
+            s = s + U[i - 1][j - 1] * x[j - 1]
+        x[i - 1] = (b[i - 1] - s) / (U[i - 1][i - 1])
+    return x
+
+
+A = []
+solução_y = []
+solução_x = []
+
+for i in range(2):
+    A.append(LU(l[i]))
+    solução_y.append(solveLowerTriangular(A[i], Y[i]))
+    solução_x.append(solveUpperTriangular(A[i], solução_y[i]))
+
+print('Método Fatoração LU')
+print()
+for i, j in zip(range(2), numero_equações):
+    print('A solução do ', j, ' sistema linear é: ')
+    print(np.transpose(np.transpose(solução_x[i])))
+    print()
+print('-------------------------------------------------------')
+
+
+##################### Método Iterativo Gauss Seidel  ###########################
+
+def gauss_Seidel(A, b, X):
+    x = X
+    n = np.size(x, 1)
+    nV = math.inf
+    tolerancia = 1e-5
+    itr = 0
+    iteração = 1
+    while abs(nV) > tolerancia:
+        x_antigo = x
+        for i in range(1, n):
+            sigma = 0;
+            for j in range(1, (i - 1)):
+                sigma += A[i, j] * x[j]
+            for k in range((i + 1), n):
+                sigma += A[i, j] * x_antigo[j]
+            x.append(((1 / A[i, i]) * (b[i] - sigma)))
+            iteração += 1
+        itr += 1
+        nV = np.linalg.norm(x_antigo - x)
+        print(x)
+
+
+gauss_Seidel(l[0], Y[0], [[0], [0], [0], [0]])
+
+#################################   3.3   ######################################
+print('Questão 3.3')
+print('')
+
+
+def gauss_3_3(A, b):
+    A = np.column_stack((A, b)).astype(float)  # matriz ampliada
+    N = len(A)
+    for i in range(N):
+        k = np.argmax(np.abs(A[i:, i]))
+        if k > 0:
+            A[i + k], A[i] = np.copy(A[i]), np.copy(A[i + k])
+        m = A[i, i:] / A[i, i]
+        for j in range(i + 1, N):
+            A[j, i:] -= A[j, i] * m
+            A[j, :i] = 0.
+    for i in range(N - 1, -1, -1):
+        for j in range(N - 1, i, -1):
+            A[i, -1] -= A[i, j] * A[j, -1]
+        A[i, -1] /= A[i, i]
+
+    print("A solução do terceiro sistema linear é:\n", A[:, -1])
+
+
+print('Método Eliminação de Gauss')
+print(gauss_3_3(l[2], Y[2]))
+print()
+print('-------------------------------------------------------')
