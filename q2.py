@@ -88,16 +88,22 @@ newt = newton(f, df, 2, tol)
 sec = secant(f, 2, 5, tol)
 
 # QUESTÃO 1.2
-print(bisec[0])
-print(fp[0])
-print(newt[0])
-print(sec[0])
+# print(bisec[0])
+# print(fp[0])
+# print(newt[0])
+# print(sec[0])
+
+#MOSTRANDO OS VALORES
+print("Método da bisecção: " + str(bisec[0]) + "; Iterações: " + str(bisec[1]))
+print("Método da falsa posição: " + str(fp[0]) + "; Iterações: " + str(fp[1]))
+print("Método de newton: " + str(newt[0]) + "; Iterações: " + str(newt[1]))
+print("Método das secantes: " + str(sec[0]) + "; Iterações: " + str(sec[1]))
 
 # QUESTÃO 1.3
-print(bisec[1])
-print(fp[1])
-print(newt[1])
-print(sec[1])
+# print(bisec[1])
+# print(fp[1])
+# print(newt[1])
+# print(sec[1])
 
 # QUESTÃO 1.4.1
 
