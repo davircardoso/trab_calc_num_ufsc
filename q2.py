@@ -185,13 +185,13 @@ plt.plot(newt[3], newt[4], c='r')
 plt.scatter(newt[3], newt[4], c='b')
 
 
-plt.subplot(4,2,2)
-for i in range(len(newt[2])):
-    newt[2][i] = newt[2][i] -
-plt.plot(newt[1], newt[2], c='g')
-plt.scatter(newt[1], newt[2] , c='r')
-plt.xlabel('iterações')
-plt.ylabel('Aproximação do tempo de pico')
-plt.title('Aproximação ao tempo de pico Método de Newton')
-plt.grid(True)
-plt.show()
+# plt.subplot(4,2,2)
+# for i in range(len(newt[2])):
+#     newt[2][i] = newt[2][i] -
+# plt.plot(newt[1], newt[2], c='g')
+# plt.scatter(newt[1], newt[2] , c='r')
+# plt.xlabel('iterações')
+# plt.ylabel('Aproximação do tempo de pico')
+# plt.title('Aproximação ao tempo de pico Método de Newton')
+# plt.grid(True)
+# plt.show()
