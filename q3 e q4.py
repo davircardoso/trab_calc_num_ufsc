@@ -216,3 +216,34 @@ print('Gauss-Seidel:', gaussSeidel(sist6_A, sist6_b, [0, 0, 0, 0, 0, 0, 0], 6))
 
 print('Jacobi:', jacobi(sist6_A, sist6_b, [0, 0, 0, 0, 0, 0, 0], 6))
 print('-' * 30)
+
+# QUESTÃO 4
+# 4.1: SISTEMA DE EQUAÇÕES ABAIXO:
+'''
+(R1 + R2)I1 + R2.I2 = -V1
+R2.I1 +(R2 + R3 + R4)I2 + R4.I3 = 0
+R4.I2 + (R4 + R5)I3 = V2
+'''
+# 4.2: MATRIZ NUMÉRICA:
+'''
+|80,3   28      0|   |I1|   |-3,3|
+|28   50,6   12,1| . |I2| = |   0|
+|0    12,1   26,8|   |I3|   | 5,1|
+'''
+
+R1 = 52.3
+R2 = 28
+R3 = 10.5
+R4 = 12.1
+R5 = 14.7
+V1 = 3.3
+V2 = 5.1
+
+sist_A = [
+    [(R2 + R1), R2, 0],
+    [R2, (R2 + R3 + R4), R4],
+    [0, R4, (R4 + R5)]
+]
+sist_b = [-V1, 0, V2]
+# 4.3:
+print(gauss([sist_A[i] + [sist_b[i]] for i in range(3)]))
