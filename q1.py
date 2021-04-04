@@ -66,12 +66,15 @@ def newton(f, Df, x0, eps):
 def secant(f, a, b, eps):
     f_a = f(a)
     f_b = f(b)
+    t_res = []
     ta = []
     tb = []
+    r_res = []
     count = 0
     while abs(f_b) > eps:
         ta.append(a)
         tb.append(b)
+        df_aprox = a - (f(a) * (b - a) / (f(b) - f(a)))
         count += 1
         denominator = float(f_b - f_a) / (b - a)
         p = b - float(f_b) / denominator
@@ -79,7 +82,10 @@ def secant(f, a, b, eps):
         b = p
         f_a = f_b
         f_b = f(b)
-    return p, count, ta, tb
+        r_res.append(f(df_aprox))
+        t_res.append(b)
+
+    return p, count, ta, tb, r_res, t_res
 
 tol = 10**(-6) # tolerância máxima
 bisec = bisection(f, 2, 6, tol)
@@ -174,30 +180,76 @@ tb = plt.scatter(list_count_sec, sec[3], c='orange')
 plt.legend((ta, tb), ('Ta', 'Tb'), loc='upper right')
 plt.show()
 
-# 1.5 - Newton
+# 1.5 - Newton Resíduo
 
 tempo = list(range(10))
 
-plt.figure(figsize=(15, 15))
-plt.subplot(4,2,1)
 plt.xlabel('tempo')
 plt.ylabel('R(t) e aproximação')
 plt.title('Tk Método de Newton')
 plt.grid(True)
 plt.gca().set_xlim([1.5, 5])
 plt.gca().set_ylim([-0.5, 0.6])
-plt.plot(tempo, tempo, c='g')
+plt.plot(np.linspace(0,10), f(np.linspace(0,10)), c='lightblue')
 plt.plot(newt[3], newt[4], c='r')
 plt.scatter(newt[3], newt[4], c='b')
+plt.show()
+
+for i in range(len(newt[3])):
+    newt[3][i] = newt[3][i] - max(newt[3])
+plt.plot(newt[2], ([-1.6]+newt[3]), c='orange')
+plt.scatter(newt[2], ([-1.6]+newt[3]), c='b')
+plt.xlabel('iterações')
+plt.ylabel('Aproximação do tempo de pico')
+plt.title('Aproximação ao tempo de pico Método de Newton')
+plt.grid(True)
+plt.show()
+
+# Secante Resíduo
+
+plt.figure(figsize=(15, 15))
+plt.subplot(2, 2, 1)
+plt.xlabel('tempo')
+plt.ylabel('R(t) e aproximação')
+plt.title('Tk Método da Secante')
+plt.grid(True)
+plt.gca().set_xlim([-10, 10.0])
+plt.gca().set_ylim([-10, 10])
+plt.plot(np.linspace(0,10), f(np.linspace(0,10)), c='g')
+plt.plot(sec[5], sec[4], c='r')
+plt.scatter(sec[5], sec[4], c='b')
+
+k = list(range(sec[1]))
+
+plt.subplot(2, 2, 2)
+val = sec[2][0]
+for i in range(len(sec[2])):
+    if sec[2][i] == val:
+        sec[3][i] = sec[3][i] - max(sec[3])
+    else:
+        sec[2][i] = sec[2][i]-max(sec[2])
+        val = sec[2][i]
+plt.plot(k, sec[2], c='g')
+plt.plot(k,sec[3], c='r')
+plt.scatter(k, sec[2], c='g')
+plt.scatter(k,sec[3] , c='r')
+plt.xlabel('iterações')
+plt.ylabel('Aproximação do tempo de pico')
+plt.title('Aproximação ao tempo de pico Método da Secante')
+plt.grid(True)
+plt.show()
 
 
-# plt.subplot(4,2,2)
-# for i in range(len(newt[2])):
-#     newt[2][i] = newt[2][i] -
-# plt.plot(newt[1], newt[2], c='g')
-# plt.scatter(newt[1], newt[2] , c='r')
-# plt.xlabel('iterações')
-# plt.ylabel('Aproximação do tempo de pico')
-# plt.title('Aproximação ao tempo de pico Método de Newton')
-# plt.grid(True)
-# plt.show()
+#Convergência 1.7
+
+R_T_Newt, R_T_Sec = 0, 0
+plt.plot(np.linspace(0,10),f(np.linspace(0,10)),'b')
+R_T_Newt = f(1.6088)
+plt.scatter(1.6088, R_T_Newt, color='r')
+R_T_Sec = f(4.5194)
+plt.scatter(4.5194, R_T_Sec, color='g')
+plt.xlabel('tempo')
+plt.ylabel('R(t)')
+plt.title('Pontos extremos de convergência ao pico no R(t)')
+plt.grid(True)
+plt.show()
