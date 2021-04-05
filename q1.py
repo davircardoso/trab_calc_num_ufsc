@@ -227,10 +227,10 @@ for i in range(len(sec[2])):
     else:
         sec[2][i] = sec[2][i]-max(sec[2])
         val = sec[2][i]
-plt.plot(k, sec[2], c='g')
-plt.plot(k,sec[3], c='r')
-plt.scatter(k, sec[2], c='g')
-plt.scatter(k,sec[3] , c='r')
+plt.plot(k, sec[2])
+plt.plot(k,sec[3])
+plt.scatter(k, sec[2])
+plt.scatter(k,sec[3] )
 plt.xlabel('iterações')
 plt.ylabel('Aproximação do tempo de pico')
 plt.title('Aproximação ao tempo de pico Método da Secante')
